@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoExplore | 包文博的地理探索博客</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- 自定义Tailwind配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#FF7D00',
+                        accent: '#00B42A',
+                        dark: '#1D2129',
+                        light: '#F2F3F5'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            }
+            .gradient-overlay {
+                background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);
+            }
+        }
+    </style>
+</head>
+<body class="bg-light font-sans text-dark">
+    <!-- 导航栏 -->
+    <header id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300">
+        <nav class="bg-white/95 backdrop-blur-sm shadow-sm py-4 px-6 md:px-12">
+            <div class="container mx-auto flex justify-between items-center">
+                <a href="#" class="flex items-center space-x-2">
+                    <span class="text-primary text-2xl"><i class="fa fa-globe"></i></span>
+                    <span class="font-bold text-xl text-primary">GeoExplore</span>
+                </a>
+                
+                <!-- 桌面导航 -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#" class="font-medium hover:text-primary transition-colors">首页</a>
+                    <a href="#articles" class="font-medium hover:text-primary transition-colors">博文</a>
+                    <a href="#categories" class="font-medium hover:text-primary transition-colors">分类</a>
+                    <a href="#about" class="font-medium hover:text-primary transition-colors">关于我</a>
+                </div>
+                
+                <!-- 移动端菜单按钮 -->
+                <button id="menu-toggle" class="md:hidden text-dark focus:outline-none">
+                    <i class="fa fa-bars text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- 移动端导航菜单 -->
+            <div id="mobile-menu" class="md:hidden hidden mt-4 py-4 border-t border-gray-100">
+                <div class="flex flex-col space-y-4 px-4">
+                    <a href="#" class="font-medium hover:text-primary transition-colors">首页</a>
+                    <a href="#articles" class="font-medium hover:text-primary transition-colors">博文</a>
+                    <a href="#categories" class="font-medium hover:text-primary transition-colors">分类</a>
+                    <a href="#about" class="font-medium hover:text-primary transition-colors">关于我</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="pt-24 md:pt-32 pb-16 md:pb-24 px-6 md:px-12 bg-gradient-to-br from-primary/5 to-light">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold leading-tight text-dark mb-4">
+                        探索地球之美<br>
+                        <span class="text-primary">分享地理的奥秘</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-600 mb-8 max-w-lg">
+                        这里是包文博的地理探索博客，带你领略大自然的壮丽景观与人文地理的丰富内涵。
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#articles" class="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all font-medium">
+                            浏览文章
+                        </a>
+                        <a href="#about" class="bg-white hover:bg-gray-50 text-primary border border-primary px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all font-medium">
+                            了解更多
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 relative">
+                    <div class="rounded-2xl overflow-hidden shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
+                        <img src="https://picsum.photos/id/1018/800/600" alt="地球景观" class="w-full h-auto">
+                    </div>
+                    <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-secondary/20 rounded-full -z-10"></div>
+                    <div class="absolute -top-6 -right-6 w-24 h-24 bg-primary/20 rounded-full -z-10"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 文章区域 -->
+    <section id="articles" class="py-16 md:py-24 px-6 md:px-12">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">最新博文</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">探索自然奇观、人文地理和科学发现，分享地理知识与旅行见闻</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 文章卡片1 -->
+                <article class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+                    <div class="relative h-60">
+                        <img src="https://picsum.photos/id/10/600/400" alt="山脉景观" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 p-4 gradient-overlay">
+                            <span class="inline-block bg-secondary/90 text-white text-xs px-3 py-1 rounded-full mb-2">自然地理</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-3 hover:text-primary transition-colors">
+                            <a href="#">喜马拉雅山脉：世界屋脊的壮丽景观</a>
+                        </h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3">喜马拉雅山脉是世界上最高的山脉，拥有多座海拔超过8000米的山峰，包括珠穆朗玛峰。本文将带您探索这座山脉的地质构造、生态系统以及登山历史...</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">2023年6月15日</span>
+                            <a href="#" class="text-primary font-medium hover:underline">阅读更多</a>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- 文章卡片2 -->
+                <article class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+                    <div class="relative h-60">
+                        <img src="https://picsum.photos/id/1015/600/400" alt="海洋景观" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 p-4 gradient-overlay">
+                            <span class="inline-block bg-primary/90 text-white text-xs px-3 py-1 rounded-full mb-2">海洋地理</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-3 hover:text-primary transition-colors">
+                            <a href="#">大堡礁：珊瑚礁生态系统的奇迹</a>
+                        </h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3">澳大利亚的大堡礁是世界上最大的珊瑚礁系统，被誉为"海洋中的热带雨林"。本文将探讨大堡礁的形成过程、生态价值以及当前面临的环境威胁...</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">2023年5月28日</span>
+                            <a href="#" class="text-primary font-medium hover:underline">阅读更多</a>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- 文章卡片3 -->
+                <article class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+                    <div class="relative h-60">
+                        <img src="https://picsum.photos/id/1036/600/400" alt="沙漠景观" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 p-4 gradient-overlay">
+                            <span class="inline-block bg-secondary/90 text-white text-xs px-3 py-1 rounded-full mb-2">自然地理</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-3 hover:text-primary transition-colors">
+                            <a href="#">撒哈拉沙漠：从海洋到沙漠的巨变</a>
+                        </h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3">撒哈拉沙漠是世界上最大的热带沙漠，但其历史上曾是一片绿洲。本文将探讨撒哈拉沙漠的形成原因、独特的生态系统以及人类活动对其环境的影响...</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">2023年4月10日</span>
+                            <a href="#" class="text-primary font-medium hover:underline">阅读更多</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="inline-flex items-center justify-center bg-white hover:bg-gray-50 text-primary border border-primary px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all font-medium">
+                    查看更多文章 <i class="fa fa-long-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 分类区域 -->
+    <section id="categories" class="py-16 md:py-24 px-6 md:px-12 bg-gradient-to-br from-light to-primary/5">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">文章分类</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">浏览不同主题的地理文章，探索地球的多样性</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                <!-- 分类1 -->
+                <a href="#" class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all text-center card-hover">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-mountain text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">自然地理</h3>
+                    <p class="text-gray-600 text-sm">12篇文章</p>
+                </a>
+                
+                <!-- 分类2 -->
+                <a href="#" class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all text-center card-hover">
+                    <div class="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-building text-2xl text-secondary"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">人文地理</h3>
+                    <p class="text-gray-600 text-sm">8篇文章</p>
+                </a>
+                
+                <!-- 分类3 -->
+                <a href="#" class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all text-center card-hover">
+                    <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-tree text-2xl text-accent"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">生态环境</h3>
+                    <p class="text-gray-600 text-sm">6篇文章</p>
+                </a>
+                
+                <!-- 分类4 -->
+                <a href="#" class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all text-center card-hover">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-map-o text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">地理科学</h3>
+                    <p class="text-gray-600 text-sm">10篇文章</p>
+                </a>
+                
+                <!-- 分类5 -->
+                <a href="#" class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all text-center card-hover">
+                    <div class="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-camera text-2xl text-secondary"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">地理摄影</h3>
+                    <p class="text-gray-600 text-sm">5篇文章</p>
+                </a>
+                
+                <!-- 分类6 -->
+                <a href="#" class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all text-center card-hover">
+                    <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-globe text-2xl text-accent"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">世界奇观</h3>
+                    <p class="text-gray-600 text-sm">7篇文章</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我 -->
+    <section id="about" class="py-16 md:py-24 px-6 md:px-12">
+        <div class="container mx-auto">
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-2/5 relative">
+                        <img src="https://picsum.photos/id/1005/600/800" alt="包文博的照片" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent flex items-end p-8 md:hidden">
+                            <h3 class="text-white text-2xl font-bold">包文博</h3>
+                        </div>
+                    </div>
+                    <div class="md:w-3/5 p-8 md:p-12">
+                        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-6">关于博主</h2>
+                        <h3 class="text-xl font-bold text-primary mb-4 md:hidden">包文博</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            大家好，我是包文博，学号20225084016，是一名地理爱好者和摄影发烧友。目前就读于信阳师范大学地理科学专业，致力于探索地球的自然与人文景观。
+                        </p>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            这个博客是我分享地理知识、旅行见闻和摄影作品的平台。我相信通过了解地球的多样性，我们能更好地珍惜和保护这个美丽的星球。
+                        </p>
+                        <div class="mb-8">
+                            <h4 class="font-bold text-lg mb-3">兴趣领域</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-primary/10 text-primary px-4 py-1 rounded-full text-sm">自然地理</span>
+                                <span class="bg-secondary/10 text-secondary px-4 py-1 rounded-full text-sm">地质构造</span>
+                                <span class="bg-accent/10 text-accent px-4 py-1 rounded-full text-sm">生态环境</span>
+                                <span class="bg-primary/10 text-primary px-4 py-1 rounded-full text-sm">地理摄影</span>
+                                <span class="bg-secondary/10 text-secondary px-4 py-1 rounded-full text-sm">文化地理</span>
+                            </div>
+                        </div>
+                        <div class="mb-8">
+                            <h4 class="font-bold text-lg mb-3">联系方式</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <i class="fa fa-envelope text-primary mt-1 mr-3"></i>
+                                    <span class="text-gray-600">2642973494@qq.com</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-phone text-primary mt-1 mr-3"></i>
+                                    <span class="text-gray-600">13419954088</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-map-marker text-primary mt-1 mr-3"></i>
+                                    <span class="text-gray-600">中国，河南省信阳市信阳师范大学</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="flex space-x-4">
+                            <a href="#" class="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all font-medium">
+                                联系我
+                            </a>
+                            <a href="#" class="bg-white hover:bg-gray-50 text-primary border border-primary px-6 py-3 rounded-lg shadow-sm hover:shadow-md transition-all font-medium">
+                                订阅博客
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 订阅区域 -->
+    <section class="py-16 md:py-20 px-6 md:px-12 bg-primary">
+        <div class="container mx-auto max-w-4xl">
+            <div class="text-center">
+                <h2 class="text-[clamp(1.5rem,3vw,2.2rem)] font-bold text-white mb-4">订阅我的博客更新</h2>
+                <p class="text-white/80 mb-8 max-w-2xl mx-auto">
+                    获取最新的地理探索文章、摄影作品和旅行见闻，不错过任何精彩内容
+                </p>
+                <form class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+                    <input type="email" placeholder="输入您的邮箱地址" class="flex-grow px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/30">
+                    <button type="submit" class="bg-white text-primary hover:bg-gray-100 px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all font-medium whitespace-nowrap">
+                        立即订阅
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white pt-16 pb-8 px-6 md:px-12">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center space-x-2 mb-6">
+                        <span class="text-primary text-2xl"><i class="fa fa-globe"></i></span>
+                        <span class="font-bold text-xl">GeoExplore</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">
+                        探索地球之美，分享地理的奥秘。这里是包文博的个人地理博客。
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-weibo text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-wechat text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-youtube-play text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-6">快速链接</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">首页</a></li>
+                        <li><a href="#articles" class="text-gray-400 hover:text-primary transition-colors">博文</a></li>
+                        <li><a href="#categories" class="text-gray-400 hover:text-primary transition-colors">分类</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-primary transition-colors">关于我</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">联系我</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-6">文章分类</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">自然地理</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">人文地理</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">生态环境</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">地理科学</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">地理摄影</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-6">联系信息</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fa fa-envelope text-primary mt-1 mr-3"></i>
+                            <span class="text-gray-400">2642973494@qq.com</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-phone text-primary mt-1 mr-3"></i>
+                            <span class="text-gray-400">13419954088</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-map-marker text-primary mt-1 mr-3"></i>
+                            <span class="text-gray-400">中国，河南省信阳市信阳师范大学</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>© 2023 GeoExplore 包文博 | 学号: 20225084016 | 保留所有权利</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-white', 'shadow-md');
+                navbar.classList.remove('bg-transparent');
+            } else {
+                navbar.classList.remove('bg-white', 'shadow-md');
+                navbar.classList.add('bg-transparent');
+            }
+        });
+        
+        // 移动端菜单切换
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // 关闭移动端菜单
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+    
